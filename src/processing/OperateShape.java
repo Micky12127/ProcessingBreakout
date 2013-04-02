@@ -27,6 +27,32 @@ public abstract class OperateShape extends MoveShape implements MouseMotionListe
 		}
 	}
 	
+	public boolean hitBlock(float blockX, float blockY, float blockHalfWidth, float blockHalfHeight) {
+		
+		boolean isBallHighXBlockRange = this.getX() >= blockX - blockHalfWidth;
+		
+		boolean isBallLowXBlockRange = this.getX() <= blockX + blockHalfWidth;
+		
+		boolean isBallHighYBlockRange = this.getY() >= blockY - blockHalfHeight;
+		
+		boolean isBallLowYBlockRange = this.getY() <= blockY + blockHalfHeight;
+		
+		if (isBallHighXBlockRange && isBallLowXBlockRange && isBallHighYBlockRange && isBallLowYBlockRange) {
+			if (isBallHighXBlockRange && isBallLowXBlockRange && isBallHighYBlockRange) {
+				this.setAngle(5 - (this.getAngle()));
+			} else if (isBallHighXBlockRange && isBallLowXBlockRange && isBallLowYBlockRange) {
+				this.setAngle(5 - (this.getAngle()));
+			} else if (isBallHighXBlockRange && isBallHighYBlockRange && isBallLowYBlockRange) {
+				this.setAngle(180 - (this.getAngle()));
+			} else if (isBallLowXBlockRange && isBallHighYBlockRange && isBallLowYBlockRange) {
+				this.setAngle(180 - (this.getAngle()));
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	// -------------PApplet MouseListener----------------
 	public void mouseClicked(MouseEvent e) {
 	}

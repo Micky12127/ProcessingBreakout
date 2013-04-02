@@ -32,7 +32,7 @@ public class Main extends PApplet {
 		for (int i = 0; i < 5; i++) {
 			OperateShape block = new Rectangle(this, 60, 30);
 			block.setX(random(50, 1150));
-			block.setY(random(100, 300));
+			block.setY(300);
 			blocks.add(block);
 		}
 	}
@@ -47,12 +47,13 @@ public class Main extends PApplet {
 			ball.hitBar(bar.getX(), bar.getY(), bar.getWidthFromCenter(), bar.getHeightFromCenter());
 			for (OperateShape block : blocks) {
 				block.display();
-			
+				if (ball.hitBlock(block.getX(), block.getY(), block.getWidthFromCenter(), block.getHeightFromCenter())) {
+					block.setX(-100);
+				}
 			}
 		} else {
 			for (OperateShape block : blocks) {
 				block.display();
-			
 			}
 			ball.display();
 		}
