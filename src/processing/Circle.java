@@ -36,6 +36,22 @@ public class Circle extends OperateShape {
 		setY(yValue);
 	}
 	
+	public float getRightVertex() {
+		return getX() + getWidthFromCenter();
+	}
+	
+	public float getLeftVertex() {
+		return getX() - getWidthFromCenter();
+	}
+	
+	public float getTopVertex() {
+		return getY() - getHeightFromCenter();
+	}
+	
+	public float getBottomVertex() {
+		return getY() + getHeightFromCenter();
+	}
+	
 	public boolean getMouseInShape() {
 		radius = getWidthFromCenter();
 		circleCenterX = getCenterPointX();
@@ -53,7 +69,7 @@ public class Circle extends OperateShape {
 		if (this.getIsFollowingMouse()) {
 			this.setIsFollowingMouse(false);
 			this.setAngle(-45);
-			this.setSpeed(5);
+			this.setSpeed(10);
 		}
 	}
 	

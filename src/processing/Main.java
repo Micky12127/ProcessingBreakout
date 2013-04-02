@@ -29,10 +29,10 @@ public class Main extends PApplet {
 		ball.setColor(color(0, 0, 255));
 		ball.setIsFollowingMouse(true);
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 50; i++) {
 			OperateShape block = new Rectangle(this, 60, 30);
-			block.setX(random(50, 1150));
-			block.setY(300);
+			block.setX(random(100, 1000));
+			block.setY(random(50, 400));
 			blocks.add(block);
 		}
 	}
