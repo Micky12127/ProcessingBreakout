@@ -14,6 +14,8 @@ public class Main extends PApplet {
 	private ArrayList<OperateShape> blocks = new ArrayList<OperateShape>();
 	OperateShape bar, ball;
 	
+	private int xPoint, yPoint;
+	
 	public void setup() {
 		size(1200, 700);
 		smooth();
@@ -29,10 +31,16 @@ public class Main extends PApplet {
 		ball.setColor(color(0, 0, 255));
 		ball.setIsFollowingMouse(true);
 		
-		for (int i = 0; i < 50; i++) {
+		yPoint = 3;
+		for (int i = 1; i <= 108; i++) {
 			OperateShape block = new Rectangle(this, 60, 30);
-			block.setX(random(100, 1000));
-			block.setY(random(50, 400));
+			xPoint++;
+			if (xPoint + 60 * xPoint > 1140) {
+				xPoint = 1;
+				yPoint++;
+			}
+			block.setX(xPoint + 60 * xPoint);
+			block.setY(yPoint + 30 * yPoint);
 			blocks.add(block);
 		}
 	}
