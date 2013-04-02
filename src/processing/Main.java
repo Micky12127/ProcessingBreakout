@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.*;
 
-public class Main extends PApplet {
+public class Main extends PApplet implements CollisionListener {
 
 	/**
 	 * 
@@ -15,21 +15,31 @@ public class Main extends PApplet {
 	OperateShape bar, ball;
 	
 	private int xPoint, yPoint;
+	private CollisionManager collisionManager;
 	
 	public void setup() {
 		size(1200, 700);
 		smooth();
+		
+		
+		collisionManager = new CollisionManager();
+		collisionManager.addListener(this);
+		
 		bar = new Rectangle(this, 100, 10);
 		bar.setX(600);
 		bar.setY(680);
 		bar.setColor(color(100, 100, 100));
 		bar.setIsFollowingMouse(true);
 		
+		collisionManager.add(bar);
+		
 		ball = new Circle(this, 10);
 		ball.setX(600);
 		ball.setY(670);
 		ball.setColor(color(0, 0, 255));
 		ball.setIsFollowingMouse(true);
+		
+		collisionManager.add(ball);
 		
 		yPoint = 3;
 		for (int i = 1; i <= 108; i++) {
@@ -42,11 +52,15 @@ public class Main extends PApplet {
 			block.setX(xPoint + 60 * xPoint);
 			block.setY(yPoint + 30 * yPoint);
 			blocks.add(block);
+			
+			collisionManager.add(block);
 		}
 	}
 	
 	public void draw() {
 		clearShape();
+		
+		collisionManager.checkCollision();
 		
 		bar.display();
 		
@@ -72,5 +86,9 @@ public class Main extends PApplet {
 		fill(255, 255, 255);
 		rect(0, 0, width, height);
 	}
-	
+
+	@Override
+	public void onCollision(CollisionEvent event) {
+		MoveShape shape = event.getTarget();
+	}
 }
