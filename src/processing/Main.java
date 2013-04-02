@@ -15,7 +15,6 @@ public class Main extends PApplet implements CollisionListener {
 	OperateShape bar, ball;
 	
 	private int xPoint, yPoint;
-
 	private CollisionManager collisionManager;
 	
 	public void setup() {

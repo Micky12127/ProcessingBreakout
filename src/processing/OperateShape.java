@@ -13,20 +13,6 @@ public abstract class OperateShape extends MoveShape implements MouseMotionListe
 		papplet.addMouseMotionListener(this);
 	}
 	
-	public void hitBar(float barX, float barY, float barHalfWidth, float barHalfHeight) {
-		boolean isBallXBarRange = this.getX() >= barX - barHalfWidth && getX() <= barX + barHalfWidth;
-		boolean isBallYBarRange = this.getY() >= barY - barHalfHeight && getY() <= barY + barHalfHeight; 
-		if (isBallXBarRange && isBallYBarRange) {
-			this.setY(670);
-			this.setAngle(5 - (this.getAngle()));
-		} else if (this.getY() > papplet.width) {
-			this.setX(barX);
-			this.setY(670);
-			this.setIsFollowingMouse(true);
-			this.setSpeed(0);
-		}
-	}
-	
 	// -------------PApplet MouseListener----------------
 	public void mouseClicked(MouseEvent e) {
 	}
