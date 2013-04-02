@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.*;
 
-public class Main extends PApplet {
+public class Main extends PApplet implements CollisionListener {
 
 	/**
 	 * 
@@ -14,14 +14,25 @@ public class Main extends PApplet {
 	private ArrayList<OperateShape> blocks = new ArrayList<OperateShape>();
 	OperateShape bar, ball;
 	
+	private int xPoint, yPoint;
+
+	private CollisionManager collisionManager;
+	
 	public void setup() {
 		size(1200, 700);
 		smooth();
+		
+		
+		collisionManager = new CollisionManager();
+		collisionManager.addListener(this);
+		
 		bar = new Rectangle(this, 100, 10);
 		bar.setX(600);
 		bar.setY(680);
 		bar.setColor(color(100, 100, 100));
 		bar.setIsFollowingMouse(true);
+		
+		collisionManager.add(bar);
 		
 		ball = new Circle(this, 10);
 		ball.setX(600);
@@ -29,16 +40,28 @@ public class Main extends PApplet {
 		ball.setColor(color(0, 0, 255));
 		ball.setIsFollowingMouse(true);
 		
-		for (int i = 0; i < 5; i++) {
+		collisionManager.add(ball);
+		
+		yPoint = 3;
+		for (int i = 1; i <= 108; i++) {
 			OperateShape block = new Rectangle(this, 60, 30);
-			block.setX(random(50, 1150));
-			block.setY(random(100, 300));
+			xPoint++;
+			if (xPoint + 60 * xPoint > 1140) {
+				xPoint = 1;
+				yPoint++;
+			}
+			block.setX(xPoint + 60 * xPoint);
+			block.setY(yPoint + 30 * yPoint);
 			blocks.add(block);
+			
+			collisionManager.add(block);
 		}
 	}
 	
 	public void draw() {
 		clearShape();
+		
+		collisionManager.checkCollision();
 		
 		bar.display();
 		
@@ -47,12 +70,13 @@ public class Main extends PApplet {
 			ball.hitBar(bar.getX(), bar.getY(), bar.getWidthFromCenter(), bar.getHeightFromCenter());
 			for (OperateShape block : blocks) {
 				block.display();
-			
+				if (ball.hitBlock(block.getX(), block.getY(), block.getWidthFromCenter(), block.getHeightFromCenter())) {
+					block.setX(-100);
+				}
 			}
 		} else {
 			for (OperateShape block : blocks) {
 				block.display();
-			
 			}
 			ball.display();
 		}
@@ -63,5 +87,9 @@ public class Main extends PApplet {
 		fill(255, 255, 255);
 		rect(0, 0, width, height);
 	}
-	
+
+	@Override
+	public void onCollision(CollisionEvent event) {
+		MoveShape shape = event.getTarget();
+	}
 }
