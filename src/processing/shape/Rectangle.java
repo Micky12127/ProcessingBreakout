@@ -1,14 +1,14 @@
-package processing;
+package processing.shape;
 
 import processing.core.PApplet;
 
 public class Rectangle extends OperateShape {
-	// 四角形の�?��高さ
 	private float rectX, rectY;
+	// 四角形の横幅と高さ
 	float rectWidth, rectHeight;
 	
-	private boolean isMouseXRectRange; // マウスのX座標が四角形のX座標から四角形の横�??間に存在するのかをチェ�?��する
-	private boolean isMouseYRectRange; // マウスのY座標が四角形のY座標から四角形の横�??間に存在するのかをチェ�?��する
+	private boolean isMouseXRectRange; // マウスのX座標が四角形のX座標から四角形の横幅の間に存在するのかをチェックする
+	private boolean isMouseYRectRange; // マウスのY座標が四角形のY座標から四角形の縦幅の間に存在するのかをチェックする
 	
 	Rectangle(PApplet papplet, float _rectWidth, float _rectHeight) {
 		super(papplet);
@@ -55,9 +55,11 @@ public class Rectangle extends OperateShape {
 	}
 	
 	public boolean getMouseInShape() {
-		// マウスが四角形の�?��に存在するかをチェ�?��する
-		isMouseXRectRange = papplet.mouseX >= getX() - getWidthFromCenter() && papplet.mouseX <= getX() + getWidthFromCenter();
-		isMouseYRectRange = papplet.mouseY >= getY() - getHeightFromCenter() && papplet.mouseY <= getY() + getHeightFromCenter();
+		// マウスが四角形の中に存在するかをチェックする
+		isMouseXRectRange = papplet.mouseX >= getX() - getWidthFromCenter() 
+				&& papplet.mouseX <= getX() + getWidthFromCenter();
+		isMouseYRectRange = papplet.mouseY >= getY() - getHeightFromCenter() 
+				&& papplet.mouseY <= getY() + getHeightFromCenter();
 		if (isMouseXRectRange && isMouseYRectRange) {
 			return true;
 		} else {
@@ -71,4 +73,5 @@ public class Rectangle extends OperateShape {
 		rectY = getY() - getHeightFromCenter();
 		papplet.rect(rectX, rectY, rectWidth, rectHeight);
 	}
+
 }

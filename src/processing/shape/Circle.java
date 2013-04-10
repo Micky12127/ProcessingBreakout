@@ -1,4 +1,4 @@
-package processing;
+package processing.shape;
 
 import java.awt.event.MouseEvent;
 
@@ -8,7 +8,9 @@ public class Circle extends OperateShape {
 	float diameter;
 	private float radius, circleCenterX, circleCenterY, mouseAndCircleDistance;
 	
-	Circle(PApplet papplet, float _diameter) {
+	private boolean isFollowingMouse = true;
+	
+	public Circle(PApplet papplet, float _diameter) {
 		super(papplet);
 		diameter = _diameter;
 		papplet.addMouseListener(this);
@@ -65,9 +67,13 @@ public class Circle extends OperateShape {
 		}
 	}
 	
+	public void setIsFollowingMouse(boolean mouseFollowingFlag) {
+		isFollowingMouse = mouseFollowingFlag;
+	}
+	
 	public void mouseClicked(MouseEvent e) {
-		if (this.getIsFollowingMouse()) {
-			this.setIsFollowingMouse(false);
+		if (isFollowingMouse) {
+			isFollowingMouse = false;
 			this.setAngle(-45);
 			this.setSpeed(10);
 		}
@@ -76,5 +82,11 @@ public class Circle extends OperateShape {
 	public void display() {
 		papplet.fill(getColor());
 		papplet.ellipse(getX(), getY(), diameter, diameter);
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		if (isFollowingMouse) {
+			this.setX(papplet.mouseX);
+		}
 	}
 }

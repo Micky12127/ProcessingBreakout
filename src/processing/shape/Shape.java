@@ -1,13 +1,13 @@
-package processing;
+package processing.shape;
 
 import processing.core.PApplet;
+import processing.operation.Displayable;
 
 public abstract class Shape implements Displayable {
 	protected float x, y;
 	// isFollowingTheMouse（マウスに追従するかしないかを決めるためのもの）
-	private int shapeColor;
+	private int shapeColor, clickedShapeFlag;
 	protected PApplet papplet;
-	private boolean isFollowingMouse = false;
 	
 	public Shape(PApplet papplet) {
 		this.papplet = papplet;
@@ -33,10 +33,12 @@ public abstract class Shape implements Displayable {
 		return shapeColor;
 	}
 	
-	public void setIsFollowingMouse(boolean isFollowingMouseValue) {
-		isFollowingMouse = isFollowingMouseValue;
+	// 図形がクリックされたことを確認するためのフラグ（0ならクリックされている、1ならクリックされていない）
+	public void setClickedShapeFlag(int clickedShapeFlagValue) {
+		clickedShapeFlag = clickedShapeFlagValue;
 	}
-	public boolean getIsFollowingMouse() {
-		return isFollowingMouse;
+	
+	public int getClickedShapeFlag() {
+		return clickedShapeFlag;
 	}
 }
