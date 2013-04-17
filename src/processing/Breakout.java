@@ -1,16 +1,16 @@
 package processing;
 
 import java.util.ArrayList;
-
+import processing.breakoutShape.Bar;
+import processing.breakoutShape.Block;
 import processing.collision.CollisionDecider;
 import processing.collision.CollisionEvent;
 import processing.collision.CollisionListener;
 import processing.core.*;
-import processing.shape.Bar;
-import processing.shape.Block;
 import processing.shape.Circle;
 import processing.shape.MoveShape;
 import processing.shape.OperateShape;
+import processing.EdgeType;
 
 public class Breakout extends PApplet implements CollisionListener {
 
@@ -27,6 +27,7 @@ public class Breakout extends PApplet implements CollisionListener {
 	
 	public void setup() {
 		size(1200, 700);
+		frameRate(240);
 		smooth();
 		
 		collisionDecider = new CollisionDecider(this);
@@ -112,6 +113,38 @@ public class Breakout extends PApplet implements CollisionListener {
 	}
 	
 	public void onCollision(CollisionEvent event) {
-		MoveShape shape = event.getTarget();
+		ArrayList<OperateShape> shapes = event.getTarget();
+		for (MoveShape shape : shapes) {
+			if (shape instanceof Block) {
+				((Block) shape).deleteBlock();
+			} else if (shape instanceof Circle) {
+				switch (event.getEdgeType()) {
+				case RIGHT:
+					shape.setAngle(180 - (shape.getAngle()));
+					break;
+				case LEFT:
+					shape.setAngle(180 - (shape.getAngle()));
+					break;
+				case TOP:
+					shape.setAngle( - (shape.getAngle()));
+					break;
+				case BOTTOM:
+					shape.setAngle( - (shape.getAngle()));
+					break;
+				case LEFTSIDEOFTHEBAR:
+					shape.setY(670);
+					shape.setAngle(30 - (shape.getAngle()));
+					shape.setSpeed(8);
+				case MIDDLEOFTHEBAR:
+					shape.setY(670);
+					shape.setAngle(-(shape.getAngle()));
+					shape.setSpeed(7);
+				case RIGHTSIDEOFTHEBAR:
+					shape.setY(670);
+					shape.setAngle( - 30 - (shape.getAngle()));
+					shape.setSpeed(8);
+				}
+			}
+		}
 	}
 }

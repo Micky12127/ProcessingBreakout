@@ -10,7 +10,7 @@ public class Rectangle extends OperateShape {
 	private boolean isMouseXRectRange; // マウスのX座標が四角形のX座標から四角形の横幅の間に存在するのかをチェックする
 	private boolean isMouseYRectRange; // マウスのY座標が四角形のY座標から四角形の縦幅の間に存在するのかをチェックする
 	
-	Rectangle(PApplet papplet, float _rectWidth, float _rectHeight) {
+    public Rectangle(PApplet papplet, float _rectWidth, float _rectHeight) {
 		super(papplet);
 		rectWidth = _rectWidth;
 		rectHeight = _rectHeight;

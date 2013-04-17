@@ -1,0 +1,5 @@
+package processing;
+
+public enum EdgeType {
+	RIGHT, LEFT, TOP, BOTTOM, RIGHTSIDEOFTHEBAR, MIDDLEOFTHEBAR, LEFTSIDEOFTHEBAR
+}

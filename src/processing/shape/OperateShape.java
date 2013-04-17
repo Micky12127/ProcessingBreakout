@@ -4,9 +4,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import processing.collision.CollisionShape;
 import processing.core.PApplet;
 
-public abstract class OperateShape extends MoveShape implements MouseMotionListener, MouseListener {
+public abstract class OperateShape extends CollisionShape implements MouseMotionListener, MouseListener {
+	
 	public OperateShape(PApplet papplet) {
 		super(papplet);
 		papplet.addMouseListener(this);
