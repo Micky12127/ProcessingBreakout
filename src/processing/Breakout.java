@@ -10,9 +10,16 @@ import processing.core.*;
 import processing.shape.Circle;
 import processing.shape.MoveShape;
 import processing.shape.OperateShape;
+import processing.watcher.BoundAction;
+import processing.watcher.CollisionCheckWithBarCondition;
+import processing.watcher.CollisionCheckWithBlockCondition;
+import processing.watcher.RemoveAction;
+import processing.watcher.ShapeAction;
+import processing.watcher.ShapeCondition;
+import processing.watcher.ShapeWatcher;
 import processing.EdgeType;
 
-public class Breakout extends PApplet implements CollisionListener {
+public class Breakout extends PApplet {
 
 	/**
 	 * 
@@ -20,7 +27,11 @@ public class Breakout extends PApplet implements CollisionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<OperateShape> shapes = new ArrayList<OperateShape>();
-	private CollisionDecider collisionDecider;
+	private ShapeWatcher shapeWatcher;
+	private ShapeCondition withBarCondition;
+	private ShapeCondition withBlockCondition;
+	private ShapeAction boundAct;
+	private ShapeAction removeAct;
 	
 	// ブロックが描画されるX座標とY座標、バーとボールの初期位置のX座標とY座標
 	private float firstPlaceX, firstPlaceY;
@@ -30,8 +41,19 @@ public class Breakout extends PApplet implements CollisionListener {
 		frameRate(240);
 		smooth();
 		
-		collisionDecider = new CollisionDecider(this);
-		collisionDecider.addListener(this);
+		shapeWatcher = new ShapeWatcher();
+		
+		boundAct = new BoundAction();
+		withBarCondition = new CollisionCheckWithBarCondition();
+		withBarCondition.addAction(boundAct);
+		
+		removeAct = new RemoveAction();
+		withBlockCondition = new CollisionCheckWithBlockCondition();
+		withBlockCondition.addAction(boundAct);
+		withBlockCondition.addAction(removeAct);
+		
+		shapeWatcher.addCondition(withBarCondition);
+		shapeWatcher.addCondition(withBlockCondition);
 		
 		firstPlaceX = 600;
 		firstPlaceY = 680;
@@ -40,14 +62,14 @@ public class Breakout extends PApplet implements CollisionListener {
 		createBarAndBlock();
 		
 		for (OperateShape shape : shapes) {
-			collisionDecider.add(shape);
+			shapeWatcher.addWatchShape(shape);
 		}
 	}
 	
 	public void draw() {
 		clearShape();
 		
-		collisionDecider.checkCollision();
+		shapeWatcher.checkCollision();
 		
 		for (OperateShape shape : shapes) {
 			shape.move();
@@ -112,39 +134,4 @@ public class Breakout extends PApplet implements CollisionListener {
 		shapes.add(ball);
 	}
 	
-	public void onCollision(CollisionEvent event) {
-		ArrayList<OperateShape> shapes = event.getTarget();
-		for (MoveShape shape : shapes) {
-			if (shape instanceof Block) {
-				((Block) shape).deleteBlock();
-			} else if (shape instanceof Circle) {
-				switch (event.getEdgeType()) {
-				case RIGHT:
-					shape.setAngle(180 - (shape.getAngle()));
-					break;
-				case LEFT:
-					shape.setAngle(180 - (shape.getAngle()));
-					break;
-				case TOP:
-					shape.setAngle( - (shape.getAngle()));
-					break;
-				case BOTTOM:
-					shape.setAngle( - (shape.getAngle()));
-					break;
-				case LEFTSIDEOFTHEBAR:
-					shape.setY(670);
-					shape.setAngle(30 - (shape.getAngle()));
-					shape.setSpeed(8);
-				case MIDDLEOFTHEBAR:
-					shape.setY(670);
-					shape.setAngle(-(shape.getAngle()));
-					shape.setSpeed(7);
-				case RIGHTSIDEOFTHEBAR:
-					shape.setY(670);
-					shape.setAngle( - 30 - (shape.getAngle()));
-					shape.setSpeed(8);
-				}
-			}
-		}
-	}
 }
